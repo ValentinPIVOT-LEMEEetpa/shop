@@ -13,69 +13,69 @@ struct items{ //Structure pour des "Objets" NON UTILISE POUR LE MOMENT
 	char nom[50];
 	int hpRegen;
 	int mpRegen;
-	int price;
+	int prix;
 	int id;
 };
 
-struct Weapons{ //Structure pour des "Armes"
+struct Armes{ //Structure pour des "Armes"
 	char nom[50];
 	int dmg;
-	int price;
+	int prix;
 	int id;
 };
 
-struct Allies{	//Structure du joueur 
+struct Personnage{	//Structure du joueur 
 	int money;
-	struct Weapons itemSlotsWeapons[2]; //Tableau d'armes 
+	struct Armes itemSlotsArmes[2]; //Tableau d'armes 
 	struct items itemSlotItems[5];		//NON UTILISE
 };
 
-struct PNJ{		//Structure du marchand
+struct Marchant{		//Structure du marchand
 	int money;
-	struct Weapons itemSlotsWeapons[10];
+	struct Armes itemSlotsArmes[10];
 	struct items itemSlotsItems[100]; 	//NON UTILISE
 	int size;
 };
 
 
-typedef struct Weapons sword ;
-typedef struct Weapons bow ;
-typedef struct Weapons axe ; //NON UTILISE
-typedef struct Weapons wand ; //NON UTILISE
+typedef struct Armes sword ;
+typedef struct Armes bow ;
+typedef struct Armes axe ; //NON UTILISE
+typedef struct Armes wand ; //NON UTILISE
 
 typedef struct items food; //NON UTILISE
 typedef struct items boost; //NON UTILISE
 
-typedef struct Allies human;
-typedef struct PNJ merchant; 
+typedef struct Personnage joueur;
+typedef struct Marchant vendeur; 
 
-void resetInv(human * inv){		//Remplace les valeurs NULL des noms dans les cases vide par "Vide"
+void resetInv(joueur * inv){		//Remplace les valeurs NULL des noms dans les cases vide par "Vide"
 	int i;
 	
 	 for (i = 0 ; i < 3 ; i++)
     {
 		
-			strcpy(inv -> itemSlotsWeapons[i].nom,"Vide"); // Ecrit "vide" dans les cases vide de l'inventaire du joueur
+			strcpy(inv -> itemSlotsArmes[i].nom,"Vide"); // Ecrit "vide" dans les cases vide de l'inventaire du joueur
     }
 }
 
-void resetInvPNJ(merchant * inv){ //Remplace les valeurs NULL des noms dans les cases vide par "Z"
+void resetInvMarchant(vendeur * inv){ //Remplace les valeurs NULL des noms dans les cases vide par "Z"
 	int i;
 	
-	 for (i = 0 ; i < 4 ; i++)
+	 for (i = 0 ; i < 3 ; i++)
     {
-			strcpy(inv -> itemSlotsWeapons[i].nom,"Z"); // Ecrit Z dans la dernière case du marchand afin que le trie s'effectue correctement. FAIRE ATTENTION A NE JAMAIS AFFICHER LA DERNIRE CASE DU TABLEAU
+			strcpy(inv -> itemSlotsArmes[i].nom,"Z"); // Ecrit Z dans la dernière case du marchand afin que le trie s'effectue correctement. FAIRE ATTENTION A NE JAMAIS AFFICHER LA DERNIRE CASE DU TABLEAU
     }
 }
 
-void swap(sword * itemSlotsWeapons, int i, int j) //Echange deux valeurs (trie à bulle) 
+void swap(sword * itemSlotsArmes, int i, int j) //Echange deux valeurs (trie à bulle) 
 {
-  sword tmp = itemSlotsWeapons[i];
-  itemSlotsWeapons[i]=itemSlotsWeapons[j];
-  itemSlotsWeapons[j]=tmp;
+  sword tmp = itemSlotsArmes[i];
+  itemSlotsArmes[i]=itemSlotsArmes[j];
+  itemSlotsArmes[j]=tmp;
 }
 
-void tri_shop(merchant * merchant) //Comparaison pour Trier (trie à bulle) 
+void tri_shop(vendeur * vendeur) //Comparaison pour Trier (trie à bulle) 
 {
    	int v=0;
     int i;
@@ -83,74 +83,74 @@ void tri_shop(merchant * merchant) //Comparaison pour Trier (trie à bulle)
 		for (i = 0, j = i+1 ; i < 3 ; i++, j++)
 		{
 			
-			if (strcmp(merchant->itemSlotsWeapons[i].nom, merchant->itemSlotsWeapons[j].nom)>0) //Vérif si le terme avant (ou après je sais plus) est plus grand ou plus petit
+			if (strcmp(vendeur->itemSlotsArmes[i].nom, vendeur->itemSlotsArmes[j].nom)>0) //Vérif si le terme avant (ou après je sais plus) est plus grand ou plus petit
 			{
 				printf("test\n");
-				swap(&merchant->itemSlotsWeapons,i,j);
+				swap(&vendeur->itemSlotsArmes,i,j);
 				
 			}
 			
 		}
 }
 
-void displayInv(human inv){		//Affiche l'inventaire 
+void displayInv(joueur inv){		//Affiche l'inventaire 
 	int i;
 	
 	 for (i = 0 ; i < 3 ; i++)
     {
 		
-		printf("%s ",inv.itemSlotsWeapons[i].nom); printf("%d ",inv.itemSlotsWeapons[i].dmg); printf("%d ",inv.itemSlotsWeapons[i].price); printf("%d \n",inv.itemSlotsWeapons[i].id);
+		printf("%s ",inv.itemSlotsArmes[i].nom); printf("%d ",inv.itemSlotsArmes[i].dmg); printf("%d ",inv.itemSlotsArmes[i].prix); printf("%d \n",inv.itemSlotsArmes[i].id);
     }
 }
 
-void displayInvPNJ(merchant inv, int a){	//Affiche le marchand. Le a est une valeur lors de l'appelle de la fonction afin de modifier le nombre de valeurs à afficher
+void displayInvMarchant(vendeur inv, int a){	//Affiche le marchand. Le a est une valeur lors de l'appelle de la fonction afin de modifier le nombre de valeurs à afficher
 		int i;
 	 for (i = 0 ; i < a ; i++)
     {
-		printf("%s ",inv.itemSlotsWeapons[i].nom); printf("%d ",inv.itemSlotsWeapons[i].dmg); printf("%d ",inv.itemSlotsWeapons[i].price); printf("%d \n",inv.itemSlotsWeapons[i].id);
+		printf("%s ",inv.itemSlotsArmes[i].nom); printf("%d ",inv.itemSlotsArmes[i].dmg); printf("%d ",inv.itemSlotsArmes[i].prix); printf("%d \n",inv.itemSlotsArmes[i].id);
     }
 	//  for (i = 0 ; i < a ; i++)
     // {
-	// 	printf("%s ",inv.itemSlotsItems[i].nom); printf("%d ",inv.itemSlotsItems[i].hpRegen); printf("%d ",inv.itemSlotsItems[i].mpRegen);  printf("%d ",inv.itemSlotsItems[i].price); printf("%d \n",inv.itemSlotsItems[i].id);
+	// 	printf("%s ",inv.itemSlotsItems[i].nom); printf("%d ",inv.itemSlotsItems[i].hpRegen); printf("%d ",inv.itemSlotsItems[i].mpRegen);  printf("%d ",inv.itemSlotsItems[i].prix); printf("%d \n",inv.itemSlotsItems[i].id);
     // }
 }
 
 
-void invMerchantRdm(merchant * inv, int a){		//Attribue aléatoirement des armes au marchand. Le a est une valeur lors de l'appelle de la fonction afin de modifier le nombre d'armes à initialiser
+void invvendeurRdm(vendeur * inv, int a){		//Attribue aléatoirement des armes au marchand. Le a est une valeur lors de l'appelle de la fonction afin de modifier le nombre d'armes à initialiser
 	int i;
-	int choiceMerchant;
+	int choicevendeur;
 	const int MIN = 1, MAX = 6;
 
-	sword blade = {"Epee", 5, 10, 1};
-	sword dagger = {"Dague", 2 , 5, 2};
-	sword saber = {"Saber", 10 , 15, 3};
+	sword ironSword = {"Epee", 5, 10, 1};
+	sword katana = {"katana", 10 , 15, 2};
+	sword knife = {"couteau", 2 , 5, 3};
 
 	bow woodBow = {"Arc", 5, 10, 1}; 	
-	bow fireBow = {"Feu_des_dieux", 2 , 5, 2};				
-	bow ironBow = {"Arbalete", 10 , 15, 3};
+	bow godBow = {"Feu_des_dieux", 2 , 5, 2};				
+	bow crossbow = {"Arbalete", 10 , 15, 3};
 
 	for (i = 0 ; i < 3 ; i++){
 
-		choiceMerchant = (rand() % (MAX + 1 - MIN)) + MIN; 
-		switch (choiceMerchant)
+		choicevendeur = (rand() % (MAX + 1 - MIN)) + MIN; 
+		switch (choicevendeur)
 		{
 		case 1:
-			inv->itemSlotsWeapons[i] = blade; 
+			inv->itemSlotsArmes[i] = ironSword; 
 		break;
 		case 2:
-			inv->itemSlotsWeapons[i] = dagger; 
+			inv->itemSlotsArmes[i] = katana; 
 		break;
 		case 3:
-			inv->itemSlotsWeapons[i] = saber;
+			inv->itemSlotsArmes[i] = knife;
 		break;
 		case 4:
-			inv->itemSlotsWeapons[i] = woodBow;
+			inv->itemSlotsArmes[i] = woodBow;
 		break;
 		case 5 :
-			inv->itemSlotsWeapons[i] = fireBow;
+			inv->itemSlotsArmes[i] = godBow;
 		break;
 		case 6:
-			inv->itemSlotsWeapons[i] = ironBow;
+			inv->itemSlotsArmes[i] = crossbow;
 		break;
 		}
 		sleep(1);
@@ -161,13 +161,13 @@ int main() {
 	srand(time(NULL)); 
 	int i;
 	int inventoryVerif = 0;
-	int choicePlayer;
+	int choixJoueur;
 	int choixItem;
 	int choiceItemVerif;
 	char* choixItemChar[50];	//Variable pour les test
 
-	human player = {100,{"vide",0,0,0}}; 
-	merchant merchant = {1000,{"",0,0,0}};
+	joueur player = {100,{"vide",0,0,0}}; 
+	vendeur bernard = {1000,{"",0,0,0}};
 	//FONCTION DE DEPART
 	resetInv(&player); // Ecrit "Vide" dans les cases nom
 
@@ -178,7 +178,7 @@ int main() {
 
 
 	// for(i = 0 ; i < 3 ; i++){ // TEST : Parcour les trois. cases du marchand pour voir si le Fgets et le "nom" de l'arme dans chaqu'une des cases du tableau concordais. C'est pas le cas et je sais pas pourquoi.
-   	// 	if(strcmp(choixItemChar,merchant.itemSlotsWeapons[i].nom)==0){
+   	// 	if(strcmp(choixItemChar,vendeur.itemSlotsArmes[i].nom)==0){
    	// 	printf("ca marche !\n");	//Non.. ça n'a jamais marché :( 
     //     }
     // }
@@ -190,10 +190,10 @@ int main() {
 	Color(4,0);
 	printf("[4] QUITTER\n");
 	Color(3,0);
-	scanf("%d", &choicePlayer);
+	scanf("%d", &choixJoueur);
 	Color(15,0);
 	do{
-	switch (choicePlayer)
+	switch (choixJoueur)
 	{
 	case 1:
 		Color(5,0);
@@ -208,30 +208,30 @@ int main() {
 	case 2: 
 			Color(13,0);
 			printf("__________MARCHANT__________\n");
-			resetInvPNJ(&merchant); //Appel de la fonction Reset
-			invMerchantRdm(&merchant, 3); //Donnes des armes au marchand
-			tri_shop(&merchant);	//Appel de la fonction Trie 
-			displayInvPNJ(merchant, 3);
-			printf("\nVeuillez ecrire le nom de l'objet que vous voulez sans accents et avec les majuscules: \n");
+			resetInvMarchant(&bernard); //Appel de la fonction Reset
+			invvendeurRdm(&bernard, 3); //Donnes des armes au marchand
+			tri_shop(&bernard);	//Appel de la fonction Trie 
+			displayInvMarchant(bernard, 3);
+			printf("\nVeuillez ecrire le nom de l'objet que vous voulez sans accents et avec les majuscules\n");
 			Color(8,0);
 			printf("(Apres avoir appuyer sur [entre] pour valider l'objet achete, appuyer sur [1] puis sur [entre])\n");
 			Color(13,0);
-			printf("votre choix: \n");
+			printf("votre choix: ");
 			scanf("%s \n", choixItemChar);
 			inventoryVerif = 0;
 			for (i = 0 ; i < 3 ; i++){ // Boucle pour parcourir les trois armes afin de faire la suite
-				if(strcmp(choixItemChar,merchant.itemSlotsWeapons[i].nom)==0){ //Si ce que le joueur à écrit corresponds avec le nom d'un des objets;
+				if(strcmp(choixItemChar,bernard.itemSlotsArmes[i].nom)==0){ //Si ce que le joueur à écrit corresponds avec le nom d'un des objets;
 					int d = i; //Stocker l'objet choisis dans le "d"
-					if(player.money >= merchant.itemSlotsWeapons[d].price){ //Si le joueur à assez d'argent Alors..
+					if(player.money >= bernard.itemSlotsArmes[d].prix){ //Si le joueur à assez d'argent Alors..
 						for (i = 0 ; i < 3 ; i++){	
-								if ((strcmp(player.itemSlotsWeapons[i].nom, "Vide"))==0){ //Vérifie si le slot d'inventaire est dispo
-									player.itemSlotsWeapons[i] = merchant.itemSlotsWeapons[d]; // Met l'objet dans l'inventaire
-									printf("Vous avez achetee %s qui a coute ", merchant.itemSlotsWeapons[d].nom);
+								if ((strcmp(player.itemSlotsArmes[i].nom, "Vide"))==0){ //Vérifie si le slot d'inventaire est dispo
+									player.itemSlotsArmes[i] = bernard.itemSlotsArmes[d]; // Met l'objet dans l'inventaire
+									printf("Vous avez achetee %s qui a coute ", bernard.itemSlotsArmes[d].nom);
 									Color(14,0);
-									printf("%d ", merchant.itemSlotsWeapons[d].price);
+									printf("%d ", bernard.itemSlotsArmes[d].prix);
 									Color(13,0);
 									printf("d'argent. Vous le mettez dans l'emplacement %d \n", i);
-									player.money = player.money - merchant.itemSlotsWeapons[d].price; // Dépense l'argent
+									player.money = player.money - bernard.itemSlotsArmes[d].prix; // Dépense l'argent
 									printf("");
 									inventoryVerif = 1; //Vérifie si l'achat à été effectué 
 									i = 5; //Sors de la boucle
@@ -263,9 +263,9 @@ int main() {
     Color(4,0);
 	printf("[4] QUITTER\n");
 	Color(3,0);
-	scanf("%d", &choicePlayer);
+	scanf("%d", &choixJoueur);
 	Color(15,0);
-	}while(choicePlayer != 4);
+	}while(choixJoueur != 4);
 	
 	Color(12,0);
 	printf("Vous avez quitter le marchand\n");
