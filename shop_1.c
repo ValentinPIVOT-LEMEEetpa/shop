@@ -27,24 +27,18 @@ struct Armes{ //Structure pour des "Armes"
 struct Personnage{	//Structure du joueur 
 	int money;
 	struct Armes itemSlotsArmes[2]; //Tableau d'armes 
-	struct items itemSlotItems[5];		//NON UTILISE
 };
 
 struct Marchant{		//Structure du marchand
 	int money;
 	struct Armes itemSlotsArmes[10];
-	struct items itemSlotsItems[100]; 	//NON UTILISE
 	int size;
 };
 
 
 typedef struct Armes sword ;
 typedef struct Armes bow ;
-typedef struct Armes axe ; //NON UTILISE
-typedef struct Armes wand ; //NON UTILISE
 
-typedef struct items food; //NON UTILISE
-typedef struct items boost; //NON UTILISE
 
 typedef struct Personnage joueur;
 typedef struct Marchant vendeur; 
@@ -109,12 +103,7 @@ void displayInvMarchant(vendeur inv, int a){	//Affiche le marchand. Le a est une
     {
 		printf("%s ",inv.itemSlotsArmes[i].nom); printf("%d ",inv.itemSlotsArmes[i].dmg); printf("%d ",inv.itemSlotsArmes[i].prix); printf("%d \n",inv.itemSlotsArmes[i].id);
     }
-	//  for (i = 0 ; i < a ; i++)
-    // {
-	// 	printf("%s ",inv.itemSlotsItems[i].nom); printf("%d ",inv.itemSlotsItems[i].hpRegen); printf("%d ",inv.itemSlotsItems[i].mpRegen);  printf("%d ",inv.itemSlotsItems[i].prix); printf("%d \n",inv.itemSlotsItems[i].id);
-    // }
 }
-
 
 void invvendeurRdm(vendeur * inv, int a){		//Attribue aléatoirement des armes au marchand. Le a est une valeur lors de l'appelle de la fonction afin de modifier le nombre d'armes à initialiser
 	int i;
@@ -173,17 +162,6 @@ int main() {
 
 	//Deroulement
 
-	// scanf("%s", &choixItemChar);
-	// printf("%s", choixItemChar);
-
-
-	// for(i = 0 ; i < 3 ; i++){ // TEST : Parcour les trois. cases du marchand pour voir si le Fgets et le "nom" de l'arme dans chaqu'une des cases du tableau concordais. C'est pas le cas et je sais pas pourquoi.
-   	// 	if(strcmp(choixItemChar,vendeur.itemSlotsArmes[i].nom)==0){
-   	// 	printf("ca marche !\n");	//Non.. ça n'a jamais marché :( 
-    //     }
-    // }
-	
-	// MARCHAND !! PEUT ETRE MIS EN COMMENTAIRE, LES TEST QUE J'EFFECTUAIS ETAIT JUSTE AVANT .
     Color(3,0);
 	printf("__________MENU__________\n");
 	printf("Inventaire: [1]\nBoutique: [2]\n");
@@ -270,5 +248,5 @@ int main() {
 	Color(12,0);
 	printf("Vous avez quitter le marchand\n");
 	Color(15,0);
-	
-}
+
+}	
