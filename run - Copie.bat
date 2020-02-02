@@ -1,3 +1,0 @@
-lourde.exe
-
-PAUSE
